@@ -10,7 +10,7 @@ Descomprimir dev.zip en C:\
 Entornos necesarios
 
 
-* [MySQL Workbench](https://www.mysql.com/products/workbench) 
+* [MySQL Workbench](https://www.mysql.com/products/workbench) (Local)
 * [Spring Tool Suite 4](https://spring.io/tools) 
 
 El proyecto utiliza los siguientes recursos
@@ -46,11 +46,20 @@ Ejecutar el archivo env-1.cmd
 
 # Base de datos SQL
 
-## Conexión
+## Conexión remota
 
-La configuracion de conexion con la base de datos se encuentra siguiente fichero
+Por defecto se encuentra configurada de forma remota y la configuracion de conexion con la base de datos se encuentra aqui:
 
 * C:\dev\repositorios\internetCheckpoint-back\src\main\resources\application.properties
+
+
+## Conexión local
+
+Para utilizar la base de datos de forma local necesitamos montarla en MySQL Workbench
+
+    - Crear la base de datos nombre_bd: internetcheckpointdb
+    - Ejecutar Scripts SQL de Schema en orden
+    - Ejecutar Scripts SQL de datos en orden
 
 ## Schema
 
