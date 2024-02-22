@@ -7,10 +7,14 @@
 
 Descomprimir dev.zip en C:\
 
-El proyecto utiliza los siguientes recursos
+Entornos necesarios
+
 
 * [MySQL Workbench](https://www.mysql.com/products/workbench) 
 * [Spring Tool Suite 4](https://spring.io/tools) 
+
+El proyecto utiliza los siguientes recursos
+
 * [Maven 3.9.6](https://maven.apache.org) 
 * [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) 
 
