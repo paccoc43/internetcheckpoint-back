@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.intcheck</groupId>
 	<artifactId>internetCheckpoint-back</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>internetCheckpoint-back-1</name>
 	<description>Aplicación Web - Internet Checkpoint</description>
 	<properties>
