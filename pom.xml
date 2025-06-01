@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.intcheck</groupId>
-	<artifactId>internetCheckpoint-back-1</artifactId>
+	<artifactId>internetCheckpoint-back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>internetCheckpoint-back-1</name>
 	<description>Aplicación Web - Internet Checkpoint</description>

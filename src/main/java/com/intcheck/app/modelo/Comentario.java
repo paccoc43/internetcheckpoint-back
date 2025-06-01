@@ -16,7 +16,7 @@ public class Comentario {
 	private Long id_comentario;
 	
 	@Column(name = "id_publicacion", nullable = false, unique = true)
-	private Long id_publicacion;
+	private Integer id_publicacion;
 	
 	@Column(name = "nombre_usuario", length = 25, nullable = false, unique = true)
 	private String nombre_usuario;
@@ -35,11 +35,11 @@ public class Comentario {
 		this.id_comentario = id_comentario;
 	}
 
-	public Long getId_publicacion() {
+	public Integer getId_publicacion() {
 		return id_publicacion;
 	}
 
-	public void setId_publicacion(Long id_publicacion) {
+	public void setId_publicacion(Integer id_publicacion) {
 		this.id_publicacion = id_publicacion;
 	}
 
