@@ -3,6 +3,8 @@ package com.intcheck.app.controller;
 import java.util.List;
 
 import com.intcheck.app.services.UsuarioService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +15,14 @@ import com.intcheck.app.modelo.Usuario;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UsuarioController {
 
+	private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
+
 	@Autowired
 	private UsuarioService usuarioService;
 
 	@GetMapping("/usuarios")
 	public List<Usuario> listarTodosLosUsuarios() {
+		logger.info("Listando todos los usuarios");
 		return usuarioService.listarTodos();
 	}
 
