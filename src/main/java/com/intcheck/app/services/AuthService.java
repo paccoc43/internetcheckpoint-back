@@ -11,10 +11,10 @@ public class AuthService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public boolean autenticar(String nombreUsuario, String password) {
+    public Usuario autenticar(String nombreUsuario, String password) {
         return usuarioRepository.findById(nombreUsuario)
-                .map(usuario -> usuario.getPassword().equals(password))
-                .orElse(false);
+                .filter(usuario -> usuario.getPassword().equals(password))
+                .orElse(null);
     }
 
     public boolean registrar(Usuario usuario) {

@@ -19,9 +19,9 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
         try {
-            boolean autenticado = authService.autenticar(usuario.getNombre_usuario(), usuario.getPassword());
-            if (autenticado) {
-                return ResponseEntity.ok("Autenticación exitosa");
+            Usuario usuarioAutenticado = authService.autenticar(usuario.getNombre_usuario(), usuario.getPassword());
+            if (usuarioAutenticado != null) {
+                return ResponseEntity.ok(usuarioAutenticado);
             } else {
                 return ResponseEntity.status(401).body("Credenciales incorrectas");
             }
