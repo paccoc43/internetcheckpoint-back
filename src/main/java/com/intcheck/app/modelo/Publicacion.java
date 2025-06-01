@@ -15,7 +15,7 @@ public class Publicacion {
 
 	@Id
 	@Column(name = "id_publicacion",nullable = false, unique = true)
-	private Long id_publicacion;
+	private Integer id_publicacion;
 	
 	@Column(name = "fecha_publicacion", length = 45)
 	private String fecha_publicacion;
@@ -30,11 +30,11 @@ public class Publicacion {
 	@JoinColumn(name = "id_tag", nullable = true)
 	private Tag id_tag ;
 
-	public Long getId_publicacion() {
+	public Integer getId_publicacion() {
 		return id_publicacion;
 	}
 
-	public void setId_publicacion(Long id_publicacion) {
+	public void setId_publicacion(Integer id_publicacion) {
 		this.id_publicacion = id_publicacion;
 	}
 
