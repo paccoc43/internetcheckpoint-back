@@ -36,7 +36,7 @@ public class UsuarioController {
 	public Usuario actualizarUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
 		if (usuarioRepo.existsById(id)) {
 			Usuario usuarioModificado = new Usuario();
-			// actualiza los campos del usuario con los datos proporcionados
+			//actualiza los campos del usuario con los datos proporcionados
 
 			usuarioModificado.setNombre_usuario(usuario.getNombre_usuario());
 			usuarioModificado.setEmail(usuario.getEmail());
