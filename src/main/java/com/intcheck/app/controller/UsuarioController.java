@@ -26,6 +26,12 @@ public class UsuarioController {
 		return usuarioService.listarTodos();
 	}
 
+	@PostMapping("/usuarios/buscar")
+	public List<Usuario> buscarUsuarios(@RequestBody Usuario filtro) {
+		logger.info("Buscando usuarios con filtro: {}", filtro);
+		return usuarioService.buscarUsuarios(filtro);
+	}
+
 	@GetMapping("/usuarios/{id}")
 	public Usuario obtenerUsuarioPorId(@PathVariable String id) {
 		return usuarioService.obtenerPorId(id).orElse(null);

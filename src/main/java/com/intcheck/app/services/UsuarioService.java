@@ -41,4 +41,13 @@ public class UsuarioService {
             return null;
         }
     }
+
+    public List<Usuario> buscarUsuarios(Usuario filtro) {
+        List<Usuario> listaUsuarios = usuarioRepo.findAll();
+        return listaUsuarios.stream()
+                .filter(u -> filtro.getNombre_usuario() == null || filtro.getNombre_usuario().isBlank() || u.getNombre_usuario().equalsIgnoreCase(filtro.getNombre_usuario()))
+                .filter(u -> filtro.getEmail() == null || filtro.getEmail().isBlank() || u.getEmail().equalsIgnoreCase(filtro.getEmail()))
+                // Agrega más filtros según los campos de Usuario, usando el mismo patrón
+                .toList();
+    }
 }
