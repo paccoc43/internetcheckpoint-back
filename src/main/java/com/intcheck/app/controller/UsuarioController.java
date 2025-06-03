@@ -6,6 +6,7 @@ import com.intcheck.app.services.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import com.intcheck.app.modelo.Usuario;
@@ -30,6 +31,15 @@ public class UsuarioController {
 	public List<Usuario> buscarUsuarios(@RequestBody Usuario filtro) {
 		logger.info("Buscando usuarios con filtro: {}", filtro);
 		return usuarioService.buscarUsuarios(filtro);
+	}
+
+	@PostMapping("/usuarios/pagina")
+	public Page<Usuario> obtenerPaginaUsuariosFiltrados(
+			@RequestBody Usuario filtro,
+			@RequestParam int page,
+			@RequestParam int size) {
+		logger.info("Paginando usuarios con filtro: {}, página: {}, tamaño: {}", filtro, page, size);
+		return usuarioService.obtenerPaginaUsuariosFiltrados(filtro, page, size);
 	}
 
 	@GetMapping("/usuarios/{id}")

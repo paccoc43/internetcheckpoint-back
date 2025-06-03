@@ -45,6 +45,7 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("El usuario ya existe");
             }
         } catch (Exception e) {
+            logger.error("Error al iniciar el servicio de autenticacion", e);
             throw new RuntimeException("Error al iniciar el servicio de autenticacion", e);
         }
     }

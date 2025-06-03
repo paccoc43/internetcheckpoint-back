@@ -3,6 +3,9 @@ package com.intcheck.app.services;
 import com.intcheck.app.modelo.Usuario;
 import com.intcheck.app.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,5 +52,14 @@ public class UsuarioService {
                 .filter(u -> filtro.getEmail() == null || filtro.getEmail().isBlank() || u.getEmail().equalsIgnoreCase(filtro.getEmail()))
                 // Agrega más filtros según los campos de Usuario, usando el mismo patrón
                 .toList();
+    }
+
+    public Page<Usuario> obtenerPaginaUsuariosFiltrados(Usuario filtro, int page, int size) {
+        List<Usuario> filtrados = buscarUsuarios(filtro);
+        int total = filtrados.size();
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, total);
+        List<Usuario> pagina = (start >= 0 && start < total) ? filtrados.subList(start, end) : List.of();
+        return new PageImpl<>(pagina, PageRequest.of(page - 1, size), total);
     }
 }
