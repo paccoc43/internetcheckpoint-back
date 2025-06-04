@@ -40,6 +40,7 @@ public class UsuarioController {
 			@RequestParam int size) {
 		logger.info("Paginando usuarios con filtro: {}, página: {}, tamaño: {}", filtro, page, size);
 		return usuarioService.obtenerPaginaUsuariosFiltrados(filtro, page, size);
+//		return usuarioService.obtenerPaginaUsuariosFiltrados2(filtro, page, size);
 	}
 
 	@GetMapping("/usuarios/{id}")

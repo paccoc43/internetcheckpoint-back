@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -61,5 +62,12 @@ public class UsuarioService {
         int end = Math.min(start + size, total);
         List<Usuario> pagina = (start >= 0 && start < total) ? filtrados.subList(start, end) : List.of();
         return new PageImpl<>(pagina, PageRequest.of(page - 1, size), total);
+    }
+
+    public Page<Usuario> obtenerPaginaUsuariosFiltrados2(Usuario filtro, int page, int size) {
+        // Si necesitas filtros dinámicos, usa Specification o Query Methods personalizados.
+        Pageable pageable = PageRequest.of(page - 1, size);
+        // Si no hay filtros complejos, puedes usar directamente:
+        return usuarioRepo.findAll(pageable);
     }
 }
