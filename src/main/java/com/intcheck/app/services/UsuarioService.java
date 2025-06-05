@@ -51,7 +51,10 @@ public class UsuarioService {
         return listaUsuarios.stream()
                 .filter(u -> filtro.getNombre_usuario() == null || filtro.getNombre_usuario().isBlank() || u.getNombre_usuario().equalsIgnoreCase(filtro.getNombre_usuario()))
                 .filter(u -> filtro.getEmail() == null || filtro.getEmail().isBlank() || u.getEmail().equalsIgnoreCase(filtro.getEmail()))
-                // Agrega más filtros según los campos de Usuario, usando el mismo patrón
+                .filter(u -> filtro.getApellidos() == null || filtro.getApellidos().isBlank() || u.getApellidos().equalsIgnoreCase(filtro.getApellidos()))
+                .filter(u -> filtro.getSexo() == null || filtro.getSexo().isBlank() || u.getSexo().equalsIgnoreCase(filtro.getSexo()))
+                .filter(u -> filtro.getFecha_nacimiento() == null || u.getFecha_nacimiento().equals(filtro.getFecha_nacimiento()))
+                .filter(u -> filtro.getEs_admin() == null || u.getEs_admin().equals(filtro.getEs_admin()))
                 .toList();
     }
 
@@ -65,9 +68,7 @@ public class UsuarioService {
     }
 
     public Page<Usuario> obtenerPaginaUsuariosFiltrados2(Usuario filtro, int page, int size) {
-        // Si necesitas filtros dinámicos, usa Specification o Query Methods personalizados.
         Pageable pageable = PageRequest.of(page - 1, size);
-        // Si no hay filtros complejos, puedes usar directamente:
         return usuarioRepo.findAll(pageable);
     }
 }

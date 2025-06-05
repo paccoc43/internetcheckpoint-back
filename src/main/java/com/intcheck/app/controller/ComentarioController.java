@@ -1,15 +1,11 @@
 package com.intcheck.app.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.intcheck.app.modelo.Comentario;
-import com.intcheck.app.repository.ComentarioRepository;
+import com.intcheck.app.services.ComentarioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -17,10 +13,30 @@ import com.intcheck.app.repository.ComentarioRepository;
 public class ComentarioController {
 
 	@Autowired
-	private ComentarioRepository comentarioRepo;
-	
+	private ComentarioService comentarioService;
+
 	@GetMapping("/comentarios")
-	public List<Comentario> listarTodasLasPublicaciones() {
-		return comentarioRepo.findAll();
+	public List<Comentario> listarTodosLosComentarios() {
+		return comentarioService.listarTodos();
+	}
+
+	@GetMapping("/comentarios/{id}")
+	public Comentario obtenerComentarioPorId(@PathVariable Long id) {
+		return comentarioService.obtenerPorId(id).orElse(null);
+	}
+
+	@PostMapping("/comentarios")
+	public Comentario crearComentario(@RequestBody Comentario comentario) {
+		return comentarioService.crear(comentario);
+	}
+
+	@PutMapping("/comentarios/{id}")
+	public Comentario actualizarComentario(@PathVariable Long id, @RequestBody Comentario comentario) {
+		return comentarioService.actualizar(id, comentario);
+	}
+
+	@DeleteMapping("/comentarios/{id}")
+	public void eliminarComentario(@PathVariable Long id) {
+		comentarioService.eliminarPorId(id);
 	}
 }

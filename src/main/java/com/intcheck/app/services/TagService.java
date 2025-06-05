@@ -1,21 +1,46 @@
 package com.intcheck.app.services;
 
+import com.intcheck.app.modelo.Tag;
+import com.intcheck.app.repository.TagRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class TagService {
-    // Aquí puedes implementar los métodos relacionados con la gestión de etiquetas
-    // Por ejemplo, crear, eliminar, buscar etiquetas, etc.
 
-    // Ejemplo de método para crear una etiqueta
-    public void crearEtiqueta(String nombreEtiqueta) {
-        // Lógica para crear una etiqueta
+    @Autowired
+    private TagRepository tagRepo;
+
+    public List<Tag> listarTodos() {
+        return tagRepo.findAll();
     }
 
-    // Ejemplo de método para eliminar una etiqueta
-    public void eliminarEtiqueta(String nombreEtiqueta) {
-        // Lógica para eliminar una etiqueta
+    public Optional<Tag> obtenerPorId(Long id) {
+        return tagRepo.findById(id);
     }
 
-    // Ejemplo de método para buscar etiquetas por nombre
-    public void buscarEtiquetas(String nombreEtiqueta) {
-        // Lógica para buscar etiquetas
-    }   
+    public Tag crear(Tag tag) {
+        return tagRepo.save(tag);
+    }
+
+    public void eliminarPorId(Long id) {
+        tagRepo.deleteById(id);
+    }
+
+    public Tag actualizar(Long id, Tag tagActualizado) {
+        return tagRepo.findById(id)
+                .map(tag -> {
+                    tag.setNombre(tagActualizado.getNombre());
+                    tag.setFuente(tagActualizado.getFuente());
+                    tag.setColor(tagActualizado.getColor());
+                    tag.setDescripcion(tagActualizado.getDescripcion());
+                    tag.setEmoji(tagActualizado.getEmoji());
+                    tag.setUsuario(tagActualizado.getUsuario());
+                    return tagRepo.save(tag);
+                })
+                .orElse(null);
+    }
 }

@@ -15,7 +15,7 @@ public class Publicacion {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_publicacion", nullable = false, unique = true)
-	private Integer id_publicacion;
+	private Long id_publicacion;
 
 	@Column(name = "fecha_publicacion", length = 45)
 	private String fecha_publicacion;
@@ -34,11 +34,11 @@ public class Publicacion {
 
 	// Getters y setters
 
-	public Integer getId_publicacion() {
+	public Long getId_publicacion() {
 		return id_publicacion;
 	}
 
-	public void setId_publicacion(Integer id_publicacion) {
+	public void setId_publicacion(Long id_publicacion) {
 		this.id_publicacion = id_publicacion;
 	}
 
