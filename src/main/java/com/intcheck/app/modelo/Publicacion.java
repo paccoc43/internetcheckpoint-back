@@ -1,34 +1,38 @@
 package com.intcheck.app.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="publicacion")
+@Table(name = "publicacion",
+		uniqueConstraints = @UniqueConstraint(name = "uq_publicacion_nombre_usuario", columnNames = "nombre_usuario"),
+		indexes = {
+				@Index(name = "idx_publicacion_nombre_usuario", columnList = "nombre_usuario"),
+				@Index(name = "idx_publicacion_id_tag", columnList = "id_tag")
+		}
+)
 public class Publicacion {
 
 	@Id
-	@Column(name = "id_publicacion",nullable = false, unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_publicacion", nullable = false, unique = true)
 	private Integer id_publicacion;
-	
+
 	@Column(name = "fecha_publicacion", length = 45)
 	private String fecha_publicacion;
 
 	@Column(name = "contenido", length = 255, nullable = false)
 	private String contenido;
-	
-	@Column(name = "nombre_usuario", length = 25, nullable = false, unique = true)
-	private String nombre_usuario;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "id_tag", nullable = true)
-	private Tag id_tag ;
+	@JoinColumn(name = "nombre_usuario", referencedColumnName = "nombre_usuario", nullable = false,
+			foreignKey = @ForeignKey(name = "fk_publicacion_usuario"))
+	private Usuario usuario;
+
+	@ManyToOne
+	@JoinColumn(name = "id_tag", referencedColumnName = "id_tag", foreignKey = @ForeignKey(name = "fk_publicacion_tag"))
+	private Tag tag;
+
+	// Getters y setters
 
 	public Integer getId_publicacion() {
 		return id_publicacion;
@@ -54,20 +58,19 @@ public class Publicacion {
 		this.contenido = contenido;
 	}
 
-	public String getNombre_usuario() {
-		return nombre_usuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setNombre_usuario(String nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public Tag getId_tag() {
-		return id_tag;
+	public Tag getTag() {
+		return tag;
 	}
 
-	public void setId_tag(Tag id_tag) {
-		this.id_tag = id_tag;
+	public void setTag(Tag tag) {
+		this.tag = tag;
 	}
-	
-}	
+}
