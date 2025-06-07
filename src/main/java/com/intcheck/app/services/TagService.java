@@ -38,7 +38,7 @@ public class TagService {
                     tag.setColor(tagActualizado.getColor());
                     tag.setDescripcion(tagActualizado.getDescripcion());
                     tag.setEmoji(tagActualizado.getEmoji());
-                    tag.setUsuario(tagActualizado.getUsuario());
+                    tag.setNombre_usuario(tagActualizado.getNombre_usuario());
                     return tagRepo.save(tag);
                 })
                 .orElse(null);

@@ -25,11 +25,8 @@ public class Tag {
 	@Column(name = "emoji", length = 20)
 	private String emoji;
 
-	@ManyToOne
-	@JoinColumn(name = "nombre_usuario", referencedColumnName = "nombre_usuario", nullable = false,
-			foreignKey = @ForeignKey(name = "fk_tag_usuario"))
-
-	private Usuario usuario;
+	@Column(name = "nombre_usuario", length = 25, nullable = false)
+	private String nombre_usuario;
 
 	// Getters y setters
 
@@ -81,12 +78,12 @@ public class Tag {
 		this.emoji = emoji;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public String getNombre_usuario() {
+		return nombre_usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setNombre_usuario(String nombre_usuario) {
+		this.nombre_usuario = nombre_usuario;
 	}
 
 	@Override
@@ -98,7 +95,7 @@ public class Tag {
 				", color='" + color + '\'' +
 				", descripcion='" + descripcion + '\'' +
 				", emoji='" + emoji + '\'' +
-				", usuario=" + usuario.getNombre_usuario() +
+				", creador=" + nombre_usuario +
 				'}';
 	}
 }
