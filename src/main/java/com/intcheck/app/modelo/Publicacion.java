@@ -3,8 +3,8 @@ package com.intcheck.app.modelo;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "publicacion",
-		uniqueConstraints = @UniqueConstraint(name = "uq_publicacion_nombre_usuario", columnNames = "nombre_usuario"),
+@Table(
+		name = "publicacion",
 		indexes = {
 				@Index(name = "idx_publicacion_nombre_usuario", columnList = "nombre_usuario"),
 				@Index(name = "idx_publicacion_id_tag", columnList = "id_tag")
@@ -23,14 +23,11 @@ public class Publicacion {
 	@Column(name = "contenido", length = 255, nullable = false)
 	private String contenido;
 
-	@ManyToOne
-	@JoinColumn(name = "nombre_usuario", referencedColumnName = "nombre_usuario", nullable = false,
-			foreignKey = @ForeignKey(name = "fk_publicacion_usuario"))
-	private Usuario usuario;
+	@Column(name = "nombre_usuario", length = 25, nullable = false)
+	private String nombre_usuario;
 
-	@ManyToOne
-	@JoinColumn(name = "id_tag", referencedColumnName = "id_tag", foreignKey = @ForeignKey(name = "fk_publicacion_tag"))
-	private Tag tag;
+	@Column(name = "id_tag", length = 50, nullable = false)
+	private Long id_tag;
 
 	// Getters y setters
 
@@ -58,19 +55,19 @@ public class Publicacion {
 		this.contenido = contenido;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public String getNombre_usuario() {
+		return nombre_usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setNombre_usuario(String nombre_usuario) {
+		this.nombre_usuario = nombre_usuario;
 	}
 
-	public Tag getTag() {
-		return tag;
+	public Long getId_tag() {
+		return id_tag;
 	}
 
-	public void setTag(Tag tag) {
-		this.tag = tag;
+	public void setId_tag(Long id_tag) {
+		this.id_tag = id_tag;
 	}
 }
