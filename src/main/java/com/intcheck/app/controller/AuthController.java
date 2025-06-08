@@ -42,7 +42,7 @@ public class AuthController {
             if (registrado) {
                 return ResponseEntity.ok("Usuario registrado");
             } else {
-                return ResponseEntity.badRequest().body("El usuario ya existe");
+                return ResponseEntity.badRequest().body("El nombre de usuario ya existe");
             }
         } catch (Exception e) {
             logger.error("Error al iniciar el servicio de autenticacion", e);
