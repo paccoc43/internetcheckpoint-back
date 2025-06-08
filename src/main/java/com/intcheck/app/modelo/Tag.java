@@ -1,34 +1,34 @@
 package com.intcheck.app.modelo;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tag")
 public class Tag {
 
 	@Id
-	@Column(name = "id_tag",nullable = false, unique = true)
+	@Column(name = "id_tag", nullable = false, unique = true)
 	private Long id_tag;
-	
-	@Column(name = "nombre", length = 25)
+
+	@Column(name = "nombre", length = 25, nullable = false)
 	private String nombre;
-	
+
 	@Column(name = "fuente", length = 45)
 	private String fuente;
-	
+
 	@Column(name = "color", length = 45)
 	private String color;
 
 	@Column(name = "descripcion", length = 100)
 	private String descripcion;
-	
+
 	@Column(name = "emoji", length = 20)
 	private String emoji;
+
+	@Column(name = "nombre_usuario", length = 25, nullable = false)
+	private String nombre_usuario;
+
+	// Getters y setters
 
 	public Long getId_tag() {
 		return id_tag;
@@ -77,6 +77,25 @@ public class Tag {
 	public void setEmoji(String emoji) {
 		this.emoji = emoji;
 	}
-	
-	
+
+	public String getNombre_usuario() {
+		return nombre_usuario;
+	}
+
+	public void setNombre_usuario(String nombre_usuario) {
+		this.nombre_usuario = nombre_usuario;
+	}
+
+	@Override
+	public String toString() {
+		return "Tag{" +
+				"id_tag=" + id_tag +
+				", nombre='" + nombre + '\'' +
+				", fuente='" + fuente + '\'' +
+				", color='" + color + '\'' +
+				", descripcion='" + descripcion + '\'' +
+				", emoji='" + emoji + '\'' +
+				", creador=" + nombre_usuario +
+				'}';
+	}
 }

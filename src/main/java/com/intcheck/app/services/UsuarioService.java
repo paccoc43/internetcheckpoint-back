@@ -3,6 +3,10 @@ package com.intcheck.app.services;
 import com.intcheck.app.modelo.Usuario;
 import com.intcheck.app.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +44,31 @@ public class UsuarioService {
         } else {
             return null;
         }
+    }
+
+    public List<Usuario> buscarUsuarios(Usuario filtro) {
+        List<Usuario> listaUsuarios = usuarioRepo.findAll();
+        return listaUsuarios.stream()
+                .filter(u -> filtro.getNombre_usuario() == null || filtro.getNombre_usuario().isBlank() || u.getNombre_usuario().equalsIgnoreCase(filtro.getNombre_usuario()))
+                .filter(u -> filtro.getEmail() == null || filtro.getEmail().isBlank() || u.getEmail().equalsIgnoreCase(filtro.getEmail()))
+                .filter(u -> filtro.getApellidos() == null || filtro.getApellidos().isBlank() || u.getApellidos().equalsIgnoreCase(filtro.getApellidos()))
+                .filter(u -> filtro.getSexo() == null || filtro.getSexo().isBlank() || u.getSexo().equalsIgnoreCase(filtro.getSexo()))
+                .filter(u -> filtro.getFecha_nacimiento() == null || u.getFecha_nacimiento().equals(filtro.getFecha_nacimiento()))
+                .filter(u -> filtro.getEs_admin() == null || u.getEs_admin().equals(filtro.getEs_admin()))
+                .toList();
+    }
+
+    public Page<Usuario> obtenerPaginaUsuariosFiltrados(Usuario filtro, int page, int size) {
+        List<Usuario> filtrados = buscarUsuarios(filtro);
+        int total = filtrados.size();
+        int start = (page - 1) * size;
+        int end = Math.min(start + size, total);
+        List<Usuario> pagina = (start >= 0 && start < total) ? filtrados.subList(start, end) : List.of();
+        return new PageImpl<>(pagina, PageRequest.of(page - 1, size), total);
+    }
+
+    public Page<Usuario> obtenerPaginaUsuariosFiltrados2(Usuario filtro, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+        return usuarioRepo.findAll(pageable);
     }
 }

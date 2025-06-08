@@ -42,6 +42,9 @@ Abrir cmd y ejecutar el archivo env-1.cmd
 
 [http://localhost:8080/api/v1/tags](http://localhost:8080/api/v1/tags)
 
+##  Documentación Swagger UI
+
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 ## Empaquetado para Despliegue
 
     mvn clean package
