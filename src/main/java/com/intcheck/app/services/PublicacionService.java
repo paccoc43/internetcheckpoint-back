@@ -3,6 +3,8 @@ package com.intcheck.app.services;
 import com.intcheck.app.modelo.Publicacion;
 import com.intcheck.app.repository.PublicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +20,10 @@ public class PublicacionService {
 
     public List<Publicacion> listarTodas() {
         return publicacionRepo.findAll();
+    }
+
+    public Page<Publicacion> findAll(Pageable pageable) {
+        return publicacionRepo.findAll(pageable);
     }
 
     public Optional<Publicacion> obtenerPorId(Long id) {

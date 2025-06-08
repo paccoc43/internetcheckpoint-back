@@ -3,6 +3,8 @@ package com.intcheck.app.controller;
 import com.intcheck.app.modelo.Publicacion;
 import com.intcheck.app.services.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +20,11 @@ public class PublicacionController {
 	@GetMapping("/publicaciones")
 	public List<Publicacion> listarTodasLasPublicaciones() {
 		return publicacionService.listarTodas();
+	}
+
+	@GetMapping("/publicaciones/pagina")
+	public Page<Publicacion> listarPaginadas(Pageable pageable) {
+		return publicacionService.findAll(pageable);
 	}
 
 	@GetMapping("/publicaciones/{id}")
