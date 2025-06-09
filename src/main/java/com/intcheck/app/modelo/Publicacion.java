@@ -18,7 +18,7 @@ public class Publicacion {
 	private Long id_publicacion;
 
 	@Column(name = "fecha_publicacion", length = 45)
-	private String fecha_publicacion;
+	private String fechaPublicacion;
 
 	@Column(name = "contenido", length = 255, nullable = false)
 	private String contenido;
@@ -41,11 +41,11 @@ public class Publicacion {
 	}
 
 	public String getFecha_publicacion() {
-		return fecha_publicacion;
+		return fechaPublicacion;
 	}
 
-	public void setFecha_publicacion(String fecha_publicacion) {
-		this.fecha_publicacion = fecha_publicacion;
+	public void setFecha_publicacion(String fechaPublicacion) {
+		this.fechaPublicacion = fechaPublicacion;
 	}
 
 	public String getContenido() {

@@ -11,4 +11,5 @@ import java.util.List;
 public interface ComentarioRepository extends JpaRepository<Comentario, Long>{
     List<Comentario> findByIdPublicacion(Long idPublicacion);
 
+    List<Comentario> findByIdPublicacionOrderByFechaComentarioDesc(Long idPublicacion);
 }

@@ -24,11 +24,11 @@ public class PublicacionService {
     private TagRepository tagRepo;
 
     public List<Publicacion> listarTodas() {
-        return publicacionRepo.findAll();
+        return publicacionRepo.findAllByOrderByFechaPublicacionDesc();
     }
 
     public Page<Publicacion> findAll(Pageable pageable) {
-        return publicacionRepo.findAll(pageable);
+        return publicacionRepo.findAllByOrderByFechaPublicacionDesc(pageable);
     }
 
     public Optional<Publicacion> obtenerPorId(Long id) {
@@ -46,7 +46,7 @@ public class PublicacionService {
     }
 
     public Page<Publicacion> findByNombreUsuario(String nombreUsuario, Pageable pageable) {
-        return publicacionRepo.findByNombreUsuario(nombreUsuario, pageable);
+        return publicacionRepo.findByNombreUsuarioOrderByFechaPublicacionDesc(nombreUsuario, pageable);
     }
 
     public void eliminarPorId(Long id) {

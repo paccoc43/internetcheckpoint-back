@@ -26,7 +26,7 @@ public class Comentario {
 	private String contenido;
 
 	@Column(name = "fecha_comentario", length = 255, nullable = false)
-	private String fecha_comentario;
+	private String fechaComentario;
 
 	// Getters y setters
 
@@ -63,11 +63,11 @@ public class Comentario {
 	}
 
 	public String getFecha_comentario() {
-		return fecha_comentario;
+		return fechaComentario;
 	}
 
-	public void setFecha_comentario(String fecha_comentario) {
-		this.fecha_comentario = fecha_comentario;
+	public void setFecha_comentario(String fechaComentario) {
+		this.fechaComentario = fechaComentario;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class Comentario {
 				", id_publicacion=" + idPublicacion +
 				", nombre_usuario='" + nombre_usuario + '\'' +
 				", contenido='" + contenido + '\'' +
-				", fecha_comentario='" + fecha_comentario + '\'' +
+				", fecha_comentario='" + fechaComentario + '\'' +
 				'}';
 	}
 }

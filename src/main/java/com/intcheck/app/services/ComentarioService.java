@@ -25,7 +25,7 @@ public class ComentarioService {
     }
 
     public List<Comentario> listarPorPublicacion(Long idPublicacion) {
-        return comentarioRepo.findByIdPublicacion(idPublicacion);
+        return comentarioRepo.findByIdPublicacionOrderByFechaComentarioDesc(idPublicacion);
     }
 
     public Comentario crear(Comentario comentario) {
