@@ -45,6 +45,10 @@ public class PublicacionService {
         return publicacionRepo.save(publicacion);
     }
 
+    public Page<Publicacion> findByNombreUsuario(String nombreUsuario, Pageable pageable) {
+        return publicacionRepo.findByNombreUsuario(nombreUsuario, pageable);
+    }
+
     public void eliminarPorId(Long id) {
         publicacionRepo.deleteById(id);
     }

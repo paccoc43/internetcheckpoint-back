@@ -32,6 +32,13 @@ public class PublicacionController {
 		return publicacionService.obtenerPorId(id).orElse(null);
 	}
 
+	@GetMapping("/publicaciones/usuario/{nombreUsuario}")
+	public Page<Publicacion> obtenerPublicacionesPorUsuario(
+			@PathVariable String nombreUsuario,
+			Pageable pageable) {
+		return publicacionService.findByNombreUsuario(nombreUsuario, pageable);
+	}
+
 	@PostMapping("/publicaciones")
 	public Publicacion crearPublicacion(@RequestBody Publicacion publicacion) {
 		return publicacionService.crear(publicacion);

@@ -24,7 +24,7 @@ public class Publicacion {
 	private String contenido;
 
 	@Column(name = "nombre_usuario", length = 25, nullable = false)
-	private String nombre_usuario;
+	private String nombreUsuario;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_tag", referencedColumnName = "id_tag", nullable = false)
@@ -57,13 +57,14 @@ public class Publicacion {
 	}
 
 	public String getNombre_usuario() {
-		return nombre_usuario;
+		return nombreUsuario;
 	}
 
-	public void setNombre_usuario(String nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+	public void setNombre_usuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 
 	public Tag getTag() { return tag; }
+
 	public void setTag(Tag tag) { this.tag = tag; }
 }
