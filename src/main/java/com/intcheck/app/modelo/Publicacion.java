@@ -18,18 +18,20 @@ public class Publicacion {
 	private Long id_publicacion;
 
 	@Column(name = "fecha_publicacion", length = 45)
-	private String fecha_publicacion;
+	private String fechaPublicacion;
 
 	@Column(name = "contenido", length = 255, nullable = false)
 	private String contenido;
 
 	@Column(name = "nombre_usuario", length = 25, nullable = false)
-	private String nombre_usuario;
+	private String nombreUsuario;
 
-	@Column(name = "id_tag", length = 50, nullable = false)
-	private Long id_tag;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_tag", referencedColumnName = "id_tag", nullable = false)
+	private Tag tag;
 
-	// Getters y setters
+	@Column(name = "imagen_url", length = 255)
+	private String imagenUrl;
 
 	public Long getId_publicacion() {
 		return id_publicacion;
@@ -40,11 +42,11 @@ public class Publicacion {
 	}
 
 	public String getFecha_publicacion() {
-		return fecha_publicacion;
+		return fechaPublicacion;
 	}
 
-	public void setFecha_publicacion(String fecha_publicacion) {
-		this.fecha_publicacion = fecha_publicacion;
+	public void setFecha_publicacion(String fechaPublicacion) {
+		this.fechaPublicacion = fechaPublicacion;
 	}
 
 	public String getContenido() {
@@ -56,18 +58,22 @@ public class Publicacion {
 	}
 
 	public String getNombre_usuario() {
-		return nombre_usuario;
+		return nombreUsuario;
 	}
 
-	public void setNombre_usuario(String nombre_usuario) {
-		this.nombre_usuario = nombre_usuario;
+	public void setNombre_usuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
 	}
 
-	public Long getId_tag() {
-		return id_tag;
+	public Tag getTag() { return tag; }
+
+	public void setTag(Tag tag) { this.tag = tag; }
+
+	public String getImagenUrl() {
+		return imagenUrl;
 	}
 
-	public void setId_tag(Long id_tag) {
-		this.id_tag = id_tag;
+	public void setImagenUrl(String imagenUrl) {
+		this.imagenUrl = imagenUrl;
 	}
 }

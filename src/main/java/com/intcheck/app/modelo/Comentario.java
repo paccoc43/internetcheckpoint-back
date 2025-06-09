@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "comentario",
-		uniqueConstraints = @UniqueConstraint(name = "uq_comentario_nombre_usuario", columnNames = "nombre_usuario"),
 		indexes = {
 				@Index(name = "idx_comentario_nombre_usuario", columnList = "nombre_usuario"),
 				@Index(name = "idx_comentario_id_publicacion", columnList = "id_publicacion")
@@ -17,21 +16,17 @@ public class Comentario {
 	@Column(name = "id_comentario", nullable = false, unique = true)
 	private Long id_comentario;
 
-	@ManyToOne
-	@JoinColumn(name = "id_publicacion", referencedColumnName = "id_publicacion", nullable = false,
-			foreignKey = @ForeignKey(name = "fk_comentario_publicacion"))
-	private Publicacion publicacion;
+	@Column(name = "id_publicacion", nullable = false)
+	private Long idPublicacion;
 
-	@ManyToOne
-	@JoinColumn(name = "nombre_usuario", referencedColumnName = "nombre_usuario", nullable = false,
-			foreignKey = @ForeignKey(name = "fk_comentario_usuario"))
-	private Usuario usuario;
+	@Column(name = "nombre_usuario", length = 25, nullable = false)
+	private String nombre_usuario;
 
 	@Column(name = "contenido", length = 255, nullable = false)
 	private String contenido;
 
 	@Column(name = "fecha_comentario", length = 255, nullable = false)
-	private String fecha_comentario;
+	private String fechaComentario;
 
 	// Getters y setters
 
@@ -43,20 +38,20 @@ public class Comentario {
 		this.id_comentario = id_comentario;
 	}
 
-	public Publicacion getPublicacion() {
-		return publicacion;
+	public Long getId_publicacion() {
+		return idPublicacion;
 	}
 
-	public void setPublicacion(Publicacion publicacion) {
-		this.publicacion = publicacion;
+	public void setId_publicacion(Long idPublicacion) {
+		this.idPublicacion = idPublicacion;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public String getNombre_usuario() {
+		return nombre_usuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setNombre_usuario(String nombre_usuario) {
+		this.nombre_usuario = nombre_usuario;
 	}
 
 	public String getContenido() {
@@ -68,20 +63,21 @@ public class Comentario {
 	}
 
 	public String getFecha_comentario() {
-		return fecha_comentario;
+		return fechaComentario;
 	}
 
-	public void setFecha_comentario(String fecha_comentario) {
-		this.fecha_comentario = fecha_comentario;
+	public void setFecha_comentario(String fechaComentario) {
+		this.fechaComentario = fechaComentario;
 	}
+
 	@Override
 	public String toString() {
 		return "Comentario{" +
 				"id_comentario=" + id_comentario +
-				", publicacion=" + publicacion.getId_publicacion() +
-				", usuario=" + usuario.getNombre_usuario() +
+				", id_publicacion=" + idPublicacion +
+				", nombre_usuario='" + nombre_usuario + '\'' +
 				", contenido='" + contenido + '\'' +
-				", fecha_comentario='" + fecha_comentario + '\'' +
+				", fecha_comentario='" + fechaComentario + '\'' +
 				'}';
 	}
 }

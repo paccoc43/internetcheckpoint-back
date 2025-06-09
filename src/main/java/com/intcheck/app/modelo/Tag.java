@@ -28,6 +28,13 @@ public class Tag {
 	@Column(name = "nombre_usuario", length = 25, nullable = false)
 	private String nombre_usuario;
 
+	// Constructor por defecto
+	public Tag() {
+	}
+
+	public Tag(Long id_tag) {
+		this.id_tag = id_tag;
+	}
 	// Getters y setters
 
 	public Long getId_tag() {
