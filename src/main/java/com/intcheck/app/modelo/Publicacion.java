@@ -30,7 +30,8 @@ public class Publicacion {
 	@JoinColumn(name = "id_tag", referencedColumnName = "id_tag", nullable = false)
 	private Tag tag;
 
-	// Getters y setters
+	@Column(name = "imagen_url", length = 255)
+	private String imagenUrl;
 
 	public Long getId_publicacion() {
 		return id_publicacion;
@@ -67,4 +68,12 @@ public class Publicacion {
 	public Tag getTag() { return tag; }
 
 	public void setTag(Tag tag) { this.tag = tag; }
+
+	public String getImagenUrl() {
+		return imagenUrl;
+	}
+
+	public void setImagenUrl(String imagenUrl) {
+		this.imagenUrl = imagenUrl;
+	}
 }

@@ -1,12 +1,16 @@
 package com.intcheck.app.controller;
 
 import com.intcheck.app.modelo.Publicacion;
+import com.intcheck.app.modelo.Tag;
 import com.intcheck.app.services.PublicacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -47,6 +51,42 @@ public class PublicacionController {
 	@PutMapping("/publicaciones/{id}")
 	public Publicacion actualizarPublicacion(@PathVariable Long id, @RequestBody Publicacion publicacion) {
 		return publicacionService.actualizar(id, publicacion);
+	}
+
+	@PostMapping("/publicaciones/archivos")
+	public Publicacion crearPublicacionConArchivo(
+			@RequestPart("texto") String texto,
+			@RequestPart("tag") String tagId,
+			@RequestPart("nombre_usuario") String nombreUsuario,
+			@RequestPart("archivos") MultipartFile archivo) throws IOException {
+
+		// Carpeta base para uploads
+		String basePath = "uploads/";
+		// Carpeta específica del usuario
+		String userFolder = basePath + nombreUsuario + "/";
+		// Asegúrate de que la carpeta exista
+		new File(userFolder).mkdirs();
+
+		// Nombre único para el archivo
+		String nombreArchivo = System.currentTimeMillis() + "_" + archivo.getOriginalFilename();
+		String ruta = userFolder + nombreArchivo;
+		File dest = new File(ruta);
+		archivo.transferTo(dest);
+		Publicacion publicacion = null;
+
+		try {
+		    //llamar al servicio para obtener el tag
+			// Crea la publicación y guarda la ruta relativa
+			publicacion = new Publicacion();
+			publicacion.setContenido(texto);
+			publicacion.setNombre_usuario(nombreUsuario);
+			publicacion.setTag(new Tag(Long.parseLong(tagId)));
+			publicacion.setImagenUrl(ruta); // Agrega este campo en la entidad
+		} catch (NumberFormatException e) {
+			throw new RuntimeException(e);
+		}
+
+		return publicacionService.crear(publicacion);
 	}
 
 	@DeleteMapping("/publicaciones/{id}")
