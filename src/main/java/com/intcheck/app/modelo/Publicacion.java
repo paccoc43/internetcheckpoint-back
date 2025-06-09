@@ -26,8 +26,9 @@ public class Publicacion {
 	@Column(name = "nombre_usuario", length = 25, nullable = false)
 	private String nombre_usuario;
 
-	@Column(name = "id_tag", length = 50, nullable = false)
-	private Long id_tag;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_tag", referencedColumnName = "id_tag", nullable = false)
+	private Tag tag;
 
 	// Getters y setters
 
@@ -63,11 +64,6 @@ public class Publicacion {
 		this.nombre_usuario = nombre_usuario;
 	}
 
-	public Long getId_tag() {
-		return id_tag;
-	}
-
-	public void setId_tag(Long id_tag) {
-		this.id_tag = id_tag;
-	}
+	public Tag getTag() { return tag; }
+	public void setTag(Tag tag) { this.tag = tag; }
 }

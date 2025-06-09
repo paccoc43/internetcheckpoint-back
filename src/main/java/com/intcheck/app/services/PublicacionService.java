@@ -1,7 +1,9 @@
 package com.intcheck.app.services;
 
 import com.intcheck.app.modelo.Publicacion;
+import com.intcheck.app.modelo.Tag;
 import com.intcheck.app.repository.PublicacionRepository;
+import com.intcheck.app.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,9 @@ public class PublicacionService {
     @Autowired
     private PublicacionRepository publicacionRepo;
 
+    @Autowired
+    private TagRepository tagRepo;
+
     public List<Publicacion> listarTodas() {
         return publicacionRepo.findAll();
     }
@@ -31,6 +36,10 @@ public class PublicacionService {
     }
 
     public Publicacion crear(Publicacion publicacion) {
+        if (publicacion.getTag() != null && publicacion.getTag().getId_tag() != null) {
+            Tag tag = tagRepo.findById(publicacion.getTag().getId_tag()).orElse(null);
+            publicacion.setTag(tag);
+        }
         String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         publicacion.setFecha_publicacion(fechaActual);
         return publicacionRepo.save(publicacion);
@@ -46,7 +55,7 @@ public class PublicacionService {
                     publicacion.setFecha_publicacion(publicacionActualizada.getFecha_publicacion());
                     publicacion.setContenido(publicacionActualizada.getContenido());
                     publicacion.setNombre_usuario(publicacionActualizada.getNombre_usuario());
-                    publicacion.setId_tag(publicacionActualizada.getId_tag());
+                    publicacion.setTag(publicacionActualizada.getTag());
                     return publicacionRepo.save(publicacion);
                 })
                 .orElse(null);
