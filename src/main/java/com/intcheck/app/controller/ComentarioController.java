@@ -25,6 +25,11 @@ public class ComentarioController {
 		return comentarioService.obtenerPorId(id).orElse(null);
 	}
 
+	@GetMapping("/comentarios/publicacion/{id_publicacion}")
+	public List<Comentario> obtenerComentariosPorPublicacion(@PathVariable Long id_publicacion) {
+		return comentarioService.listarPorPublicacion(id_publicacion);
+	}
+
 	@PostMapping("/comentarios")
 	public Comentario crearComentario(@RequestBody Comentario comentario) {
 		return comentarioService.crear(comentario);

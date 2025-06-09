@@ -5,6 +5,8 @@ import com.intcheck.app.repository.ComentarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +24,13 @@ public class ComentarioService {
         return comentarioRepo.findById(id);
     }
 
+    public List<Comentario> listarPorPublicacion(Long idPublicacion) {
+        return comentarioRepo.findByIdPublicacion(idPublicacion);
+    }
+
     public Comentario crear(Comentario comentario) {
+        String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        comentario.setFecha_comentario(fechaActual);
         return comentarioRepo.save(comentario);
     }
 
@@ -35,8 +43,8 @@ public class ComentarioService {
                 .map(comentario -> {
                     comentario.setContenido(comentarioActualizado.getContenido());
                     comentario.setFecha_comentario(comentarioActualizado.getFecha_comentario());
-                    comentario.setPublicacion(comentarioActualizado.getPublicacion());
-                    comentario.setUsuario(comentarioActualizado.getUsuario());
+                    comentario.setId_publicacion(comentarioActualizado.getId_publicacion());
+                    comentario.setNombre_usuario(comentarioActualizado.getNombre_usuario());
                     return comentarioRepo.save(comentario);
                 })
                 .orElse(null);
