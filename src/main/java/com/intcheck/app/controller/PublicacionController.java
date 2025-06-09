@@ -60,16 +60,15 @@ public class PublicacionController {
 			@RequestPart("nombre_usuario") String nombreUsuario,
 			@RequestPart("archivos") MultipartFile archivo) throws IOException {
 
-		// Carpeta base para uploads
-		String basePath = "uploads/";
-		// Carpeta específica del usuario
-		String userFolder = basePath + nombreUsuario + "/";
-		// Asegúrate de que la carpeta exista
-		new File(userFolder).mkdirs();
-
-		// Nombre único para el archivo
-		String nombreArchivo = System.currentTimeMillis() + "_" + archivo.getOriginalFilename();
-		String ruta = userFolder + nombreArchivo;
+		// Carpeta base absoluta para uploads
+		String basePath = "C:" + File.separator + "dev" + File.separator + "uploads";
+		String nombreUsuarioSinPuntos = nombreUsuario.replace('.', '_');
+		File userDir = new File(basePath, nombreUsuarioSinPuntos);
+		if (!userDir.exists()) {
+			userDir.mkdirs();
+		}
+		String nombreArchivo = nombreUsuarioSinPuntos + "_" + archivo.getOriginalFilename();
+		String ruta = userDir.getPath() + File.separator + nombreArchivo;
 		File dest = new File(ruta);
 		archivo.transferTo(dest);
 		Publicacion publicacion = null;
