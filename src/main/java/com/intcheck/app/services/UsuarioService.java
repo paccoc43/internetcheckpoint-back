@@ -11,7 +11,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,17 +38,22 @@ public class UsuarioService {
         usuarioRepo.deleteById(id);
     }
 
-    public Usuario modificarUsuario(String id, Usuario usuario) {
-        if (usuarioRepo.existsById(id)) {
-            Usuario usuarioModificado = new Usuario();
-            usuarioModificado.setNombre_usuario(usuario.getNombre_usuario());
-            usuarioModificado.setEmail(usuario.getEmail());
-            usuarioModificado.setPassword(usuario.getPassword());
-            usuarioModificado.setApellidos(usuario.getApellidos());
-            usuarioModificado.setSexo(usuario.getSexo());
-            usuarioModificado.setFecha_nacimiento(usuario.getFecha_nacimiento());
-            usuarioModificado.setEs_admin(usuario.getEs_admin());
-            return usuarioRepo.save(usuarioModificado);
+    public Usuario modificarUsuario(Usuario usuario) {
+        if (usuarioRepo.existsById(usuario.getNombre_usuario())) {
+            Usuario usuarioActual = usuarioRepo.findById(usuario.getNombre_usuario()).orElse(null);
+            try {
+                Usuario usuarioModificado = new Usuario();
+                usuarioModificado.setNombre_usuario(usuarioActual.getNombre_usuario());
+                usuarioModificado.setEmail(usuario.getEmail());
+                usuarioModificado.setPassword(usuarioActual.getPassword());
+                usuarioModificado.setApellidos(usuario.getApellidos());
+                usuarioModificado.setSexo(usuario.getSexo());
+                usuarioModificado.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                usuarioModificado.setEs_admin(usuario.getEs_admin());
+                return usuarioRepo.save(usuarioModificado);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else {
             return null;
         }
@@ -95,8 +103,25 @@ public class UsuarioService {
         return filtro;
     }
 
-    public Page<Usuario> obtenerPaginaUsuariosFiltrados2(Usuario filtro, int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        return usuarioRepo.findAll(pageable);
+    public Usuario actualizarImagenPerfil(String nombreUsuario, MultipartFile imagen) throws IOException {
+        Optional<Usuario> usuarioOpt = usuarioRepo.findById(nombreUsuario);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+
+            String basePath = "C:" + File.separator + "dev" + File.separator + "uploads" + File.separator + "perfiles";
+            File userDir = new File(basePath, nombreUsuario.replace('.', '_'));
+            if (!userDir.exists()) {
+                userDir.mkdirs();
+            }
+            String nombreArchivo = nombreUsuario.replace('.', '_') + "_" + imagen.getOriginalFilename();
+            String ruta = userDir.getPath() + File.separator + nombreArchivo;
+            File dest = new File(ruta);
+            imagen.transferTo(dest);
+
+            // Guarda la ruta o el nombre del archivo en la base de datos
+            usuario.setImagen_perfil(ruta);
+            return usuarioRepo.save(usuario);
+        }
+        return null;
     }
 }

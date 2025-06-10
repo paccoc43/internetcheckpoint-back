@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -43,6 +46,29 @@ public class PublicacionService {
         String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         publicacion.setFecha_publicacion(fechaActual);
         return publicacionRepo.save(publicacion);
+    }
+
+    public Publicacion crearConArchivo(String texto, String tagId, String nombreUsuario, MultipartFile archivo) throws IOException {
+        String basePath = "C:" + File.separator + "dev" + File.separator + "uploads" + File.separator + "publicaciones";
+        String nombreUsuarioSinPuntos = nombreUsuario.replace('.', '_');
+        File userDir = new File(basePath, nombreUsuarioSinPuntos);
+        if (!userDir.exists()) {
+            userDir.mkdirs();
+        }
+        String nombreArchivo = nombreUsuarioSinPuntos + "_" + archivo.getOriginalFilename();
+        String ruta = userDir.getPath() + File.separator + nombreArchivo;
+        File dest = new File(ruta);
+        archivo.transferTo(dest);
+
+        Publicacion publicacion = new Publicacion();
+        publicacion.setContenido(texto);
+        publicacion.setNombre_usuario(nombreUsuario);
+        publicacion.setTag(new Tag(Long.parseLong(tagId)));
+        String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        publicacion.setFecha_publicacion(fechaActual);
+        publicacion.setImagenUrl(ruta);
+
+        return crear(publicacion);
     }
 
     public Page<Publicacion> findByNombreUsuario(String nombreUsuario, Pageable pageable) {

@@ -38,6 +38,9 @@ public class Usuario {
 	
 	@Column(name = "es_admin")
 	private String es_admin;
+
+	@Column(name = "imagen_perfil", length = 255)
+	private String imagen_perfil;
 	
 	public Usuario() {
 		
@@ -105,5 +108,13 @@ public class Usuario {
 
 	public void setEs_admin(String es_admin) {
 		this.es_admin = es_admin;
+	}
+
+	public String getImagen_perfil() {
+		return imagen_perfil;
+	}
+
+	public void setImagen_perfil(String imagen_perfil) {
+		this.imagen_perfil = imagen_perfil;
 	}
 }

@@ -1,5 +1,6 @@
 package com.intcheck.app.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.intcheck.app.services.UsuarioService;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import com.intcheck.app.modelo.Usuario;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -40,7 +42,6 @@ public class UsuarioController {
 			@RequestParam int size) {
 		logger.info("Paginando usuarios con filtro: {}, página: {}, tamaño: {}", filtro, page, size);
 		return usuarioService.obtenerPaginaUsuariosFiltrados(filtro, page, size);
-//		return usuarioService.obtenerPaginaUsuariosFiltrados2(filtro, page, size);
 	}
 
 	@GetMapping("/usuarios/{id}")
@@ -55,6 +56,13 @@ public class UsuarioController {
 
 	@PutMapping("/usuarios/{id}")
 	public Usuario modificarDatosUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
-		return usuarioService.modificarUsuario(id, usuario);
+		return usuarioService.modificarUsuario(usuario);
+	}
+
+	@PutMapping("/usuarios/imagen")
+	public Usuario actualizarImagenPerfil(
+			@RequestPart("imagen") MultipartFile imagen,
+			@RequestPart("nombre_usuario") String nombreUsuario) throws IOException {
+		return usuarioService.actualizarImagenPerfil(nombreUsuario, imagen);
 	}
 }
