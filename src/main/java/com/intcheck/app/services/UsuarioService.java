@@ -1,7 +1,10 @@
 package com.intcheck.app.services;
 
+import com.intcheck.app.controller.AuthController;
 import com.intcheck.app.modelo.Usuario;
 import com.intcheck.app.repository.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,6 +17,8 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
     private UsuarioRepository usuarioRepo;
@@ -59,12 +64,35 @@ public class UsuarioService {
     }
 
     public Page<Usuario> obtenerPaginaUsuariosFiltrados(Usuario filtro, int page, int size) {
+        filtro = limpiarFiltro(filtro);
         List<Usuario> filtrados = buscarUsuarios(filtro);
         int total = filtrados.size();
         int start = (page - 1) * size;
         int end = Math.min(start + size, total);
         List<Usuario> pagina = (start >= 0 && start < total) ? filtrados.subList(start, end) : List.of();
         return new PageImpl<>(pagina, PageRequest.of(page - 1, size), total);
+    }
+
+    public Usuario limpiarFiltro(Usuario filtro) {
+        if (filtro.getNombre_usuario() == "") {
+            filtro.setNombre_usuario(null);
+        }
+        if (filtro.getEmail() == "") {
+            filtro.setEmail(null);
+        }
+        if (filtro.getApellidos() == "") {
+            filtro.setApellidos(null);
+        }
+        if (filtro.getSexo() == "") {
+            filtro.setSexo(null);
+        }
+        if (filtro.getFecha_nacimiento() == "") {
+            filtro.setFecha_nacimiento(null);
+        }
+        if (filtro.getEs_admin() == "") {
+            filtro.setEs_admin(null);
+        }
+        return filtro;
     }
 
     public Page<Usuario> obtenerPaginaUsuariosFiltrados2(Usuario filtro, int page, int size) {
