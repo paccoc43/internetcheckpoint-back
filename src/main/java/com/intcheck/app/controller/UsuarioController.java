@@ -55,6 +55,6 @@ public class UsuarioController {
 
 	@PutMapping("/usuarios/{id}")
 	public Usuario modificarDatosUsuario(@PathVariable String id, @RequestBody Usuario usuario) {
-		return usuarioService.modificarUsuario(id, usuario);
+		return usuarioService.modificarUsuario(usuario);
 	}
 }

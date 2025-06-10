@@ -35,17 +35,22 @@ public class UsuarioService {
         usuarioRepo.deleteById(id);
     }
 
-    public Usuario modificarUsuario(String id, Usuario usuario) {
-        if (usuarioRepo.existsById(id)) {
-            Usuario usuarioModificado = new Usuario();
-            usuarioModificado.setNombre_usuario(usuario.getNombre_usuario());
-            usuarioModificado.setEmail(usuario.getEmail());
-            usuarioModificado.setPassword(usuario.getPassword());
-            usuarioModificado.setApellidos(usuario.getApellidos());
-            usuarioModificado.setSexo(usuario.getSexo());
-            usuarioModificado.setFecha_nacimiento(usuario.getFecha_nacimiento());
-            usuarioModificado.setEs_admin(usuario.getEs_admin());
-            return usuarioRepo.save(usuarioModificado);
+    public Usuario modificarUsuario(Usuario usuario) {
+        if (usuarioRepo.existsById(usuario.getNombre_usuario())) {
+            Usuario usuarioActual = usuarioRepo.findById(usuario.getNombre_usuario()).orElse(null);
+            try {
+                Usuario usuarioModificado = new Usuario();
+                usuarioModificado.setNombre_usuario(usuarioActual.getNombre_usuario());
+                usuarioModificado.setEmail(usuario.getEmail());
+                usuarioModificado.setPassword(usuarioActual.getPassword());
+                usuarioModificado.setApellidos(usuario.getApellidos());
+                usuarioModificado.setSexo(usuario.getSexo());
+                usuarioModificado.setFecha_nacimiento(usuario.getFecha_nacimiento());
+                usuarioModificado.setEs_admin(usuario.getEs_admin());
+                return usuarioRepo.save(usuarioModificado);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else {
             return null;
         }
