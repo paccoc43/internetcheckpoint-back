@@ -59,33 +59,7 @@ public class PublicacionController {
 			@RequestPart("tag") String tagId,
 			@RequestPart("nombre_usuario") String nombreUsuario,
 			@RequestPart("archivos") MultipartFile archivo) throws IOException {
-
-		// Carpeta base absoluta para uploads
-		String basePath = "C:" + File.separator + "dev" + File.separator + "uploads";
-		String nombreUsuarioSinPuntos = nombreUsuario.replace('.', '_');
-		File userDir = new File(basePath, nombreUsuarioSinPuntos);
-		if (!userDir.exists()) {
-			userDir.mkdirs();
-		}
-		String nombreArchivo = nombreUsuarioSinPuntos + "_" + archivo.getOriginalFilename();
-		String ruta = userDir.getPath() + File.separator + nombreArchivo;
-		File dest = new File(ruta);
-		archivo.transferTo(dest);
-		Publicacion publicacion = null;
-
-		try {
-		    //llamar al servicio para obtener el tag
-			// Crea la publicación y guarda la ruta relativa
-			publicacion = new Publicacion();
-			publicacion.setContenido(texto);
-			publicacion.setNombre_usuario(nombreUsuario);
-			publicacion.setTag(new Tag(Long.parseLong(tagId)));
-			publicacion.setImagenUrl(ruta); // Agrega este campo en la entidad
-		} catch (NumberFormatException e) {
-			throw new RuntimeException(e);
-		}
-
-		return publicacionService.crear(publicacion);
+		return publicacionService.crearConArchivo(texto, tagId, nombreUsuario, archivo);
 	}
 
 	@DeleteMapping("/publicaciones/{id}")

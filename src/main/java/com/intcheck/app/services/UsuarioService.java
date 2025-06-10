@@ -11,7 +11,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -100,8 +103,25 @@ public class UsuarioService {
         return filtro;
     }
 
-    public Page<Usuario> obtenerPaginaUsuariosFiltrados2(Usuario filtro, int page, int size) {
-        Pageable pageable = PageRequest.of(page - 1, size);
-        return usuarioRepo.findAll(pageable);
+    public Usuario actualizarImagenPerfil(String nombreUsuario, MultipartFile imagen) throws IOException {
+        Optional<Usuario> usuarioOpt = usuarioRepo.findById(nombreUsuario);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+
+            String basePath = "C:" + File.separator + "dev" + File.separator + "uploads" + File.separator + "perfiles";
+            File userDir = new File(basePath, nombreUsuario.replace('.', '_'));
+            if (!userDir.exists()) {
+                userDir.mkdirs();
+            }
+            String nombreArchivo = nombreUsuario.replace('.', '_') + "_" + imagen.getOriginalFilename();
+            String ruta = userDir.getPath() + File.separator + nombreArchivo;
+            File dest = new File(ruta);
+            imagen.transferTo(dest);
+
+            // Guarda la ruta o el nombre del archivo en la base de datos
+            usuario.setImagen_perfil(ruta);
+            return usuarioRepo.save(usuario);
+        }
+        return null;
     }
 }
