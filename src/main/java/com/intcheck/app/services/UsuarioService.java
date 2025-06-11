@@ -124,4 +124,37 @@ public class UsuarioService {
         }
         return null;
     }
+
+    public Usuario actualizarLaImagenPerfil(String nombreUsuario, MultipartFile imagen) throws IOException {
+        Optional<Usuario> usuarioOpt = usuarioRepo.findById(nombreUsuario);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+
+            String basePath = "C:" + File.separator + "dev" + File.separator + "uploads" + File.separator + "perfiles";
+            File userDir = new File(basePath, nombreUsuario.replace('.', '_'));
+            if (!userDir.exists()) {
+                userDir.mkdirs();
+            }
+
+            // Obtener la extensión original del archivo
+            String extension = "";
+            String nombreOriginal = imagen.getOriginalFilename();
+            int i = nombreOriginal.lastIndexOf('.');
+            if (i > 0) {
+                extension = nombreOriginal.substring(i);
+            }
+
+            // Usar un nombre fijo para la imagen de perfil
+            String nombreArchivo = "perfil" + extension;
+            String ruta = userDir.getPath() + File.separator + nombreArchivo;
+            File dest = new File(ruta);
+
+            // Guardar (y reemplazar si ya existe)
+            imagen.transferTo(dest);
+
+            usuario.setImagen_perfil(ruta);
+            return usuarioRepo.save(usuario);
+        }
+        return null;
+    }
 }
